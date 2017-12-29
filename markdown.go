@@ -409,8 +409,8 @@ func (p *Markdown) Parse(input []byte) *Node {
 	// Walk the tree again and process inline markdown in each block
 	p.doc.Walk(func(node *Node, entering bool) WalkStatus {
 		if node.Type == Paragraph || node.Type == Heading || node.Type == TableCell {
-			p.inline(node, node.content)
-			node.content = nil
+			p.inline(node, node.Content)
+			node.Content = nil
 		}
 		return GoToNext
 	})
@@ -450,8 +450,8 @@ func (p *Markdown) parseRefsToAST() {
 	p.tip = above
 	block.Walk(func(node *Node, entering bool) WalkStatus {
 		if node.Type == Paragraph || node.Type == Heading {
-			p.inline(node, node.content)
-			node.content = nil
+			p.inline(node, node.Content)
+			node.Content = nil
 		}
 		return GoToNext
 	})

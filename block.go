@@ -200,7 +200,7 @@ func (p *Markdown) block(data []byte) {
 func (p *Markdown) addBlock(typ NodeType, content []byte) *Node {
 	p.closeUnmatchedBlocks()
 	container := p.addChild(typ, 0)
-	container.content = content
+	container.Content = content
 	return container
 }
 
@@ -414,8 +414,8 @@ func (p *Markdown) html(data []byte, doRender bool) int {
 }
 
 func finalizeHTMLBlock(block *Node) {
-	block.Literal = block.content
-	block.content = nil
+	block.Literal = block.Content
+	block.Content = nil
 }
 
 // HTML comment, lax form
@@ -728,15 +728,15 @@ func unescapeString(str []byte) []byte {
 
 func finalizeCodeBlock(block *Node) {
 	if block.IsFenced {
-		newlinePos := bytes.IndexByte(block.content, '\n')
-		firstLine := block.content[:newlinePos]
-		rest := block.content[newlinePos+1:]
+		newlinePos := bytes.IndexByte(block.Content, '\n')
+		firstLine := block.Content[:newlinePos]
+		rest := block.Content[newlinePos+1:]
 		block.Info = unescapeString(bytes.Trim(firstLine, "\n"))
 		block.Literal = rest
 	} else {
-		block.Literal = block.content
+		block.Literal = block.Content
 	}
-	block.content = nil
+	block.Content = nil
 }
 
 func (p *Markdown) table(data []byte) int {
@@ -1372,11 +1372,11 @@ gatherlines:
 		// intermediate render of inline item
 		if sublist > 0 {
 			child := p.addChild(Paragraph, 0)
-			child.content = rawBytes[:sublist]
+			child.Content = rawBytes[:sublist]
 			p.block(rawBytes[sublist:])
 		} else {
 			child := p.addChild(Paragraph, 0)
-			child.content = rawBytes
+			child.Content = rawBytes
 		}
 	}
 	return line

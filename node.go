@@ -128,7 +128,7 @@ type Node struct {
 	LinkData      // Populated if Type is Link
 	TableCellData // Populated if Type is TableCell
 
-	content []byte // Markdown content of the block nodes
+	Content []byte // Markdown content of the block nodes
 	open    bool   // Specifies an open block node that has not been finished to process yet
 }
 
@@ -340,7 +340,7 @@ func dumpR(ast *Node, depth int) string {
 	indent := bytes.Repeat([]byte("\t"), depth)
 	content := ast.Literal
 	if content == nil {
-		content = ast.content
+		content = ast.Content
 	}
 	result := fmt.Sprintf("%s%s(%q)\n", indent, ast.Type, content)
 	for n := ast.FirstChild; n != nil; n = n.Next {
